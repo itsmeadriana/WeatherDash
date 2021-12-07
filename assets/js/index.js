@@ -284,7 +284,7 @@ function weatherIconDesc(forecastDay) {
 }
 
 function timezone(data) {
-    var date = dayjs().tz(data.timezone).format('dddd/M/D')
+    var date = dayjs().tz(data.timezone).format('dddd')
     return date;
 }
 
