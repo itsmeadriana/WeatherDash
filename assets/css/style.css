@@ -1,0 +1,31 @@
+:root {
+    --primary-color: #576687;
+    --secondary-color: #71809e;
+    --tertiary-color: #536d8e;
+    --shadow-color: #b9c5d2;
+    --primary-color-2: #871907;
+    --secondary-color-2: #760d1c;
+    --tertiary-color-2: #953f29;
+    --primary-color-3: #a5592a;
+    --secondary-color-3: #b96b3c;
+    --tertiary-color-3: #d28c5f;
+    --accent-color-1: #d67765;
+    --accent-color-2: #e49f78;
+    --bg-color: #cfedf8cb;
+};
+
+.banner {
+    background-color: var(--bg-color);
+}
+
+body {
+    background-color: var(--bg-color);
+}
+
+li {
+    list-style: none;
+}
+
+h3 {
+    color: var(--tertiary-color);
+}

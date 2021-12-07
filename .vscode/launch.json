@@ -1,0 +1,11 @@
+{
+    "configurations": [
+    {
+        "name": "Launch Chrome",
+        "request": "launch",
+        "type": "pwa-chrome",
+        "url": "file:///Users/adriana/Developer/projects/WeatherDash/index.html",
+        "webRoot": "${workspaceFolder}"
+    }
+    ]
+}
