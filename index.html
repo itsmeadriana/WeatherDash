@@ -37,28 +37,32 @@
                 </form>
 
                 <div class="list-group my-4">
-                    <button type="button" class="list-group-item list-group-item-action" disabled>Search
-                        History</button>
+                    <h6>Search
+                        History</h6>
                         <!-- <ul id=search-item>
                             <li id=search-item>
 
                             </li>
                         </ul> -->
                     <!-- <span id="search-item"> -->
-                        <button type="button" class="list-group-item list-group-item-action" id="search-item">
-                        </button>
+                        <div class="list-group" id="search-item">
+                        </div>
                     <!-- </span> -->
                 </div>
         </div>
         </section>
 
         <div class="flex-column col-8 container-fluid">
-            <h3 class="shadow p-3 mb-5 bg-body py-4 px-4 rounded-pill">don't let the weather give you whiplash.
+            <h3 class="shadow p-3 mb-5 bg-body py-4 px-4 rounded-pill">
+                <span id="city"></span></span></span>
             </h3>
+            <h2><span id="timezone-wrapper"></span></h2>
 
             <section class="current-weather py-4 shadow p-3 mb-5 bg-body rounded">
-                <h2><span id="city"></span></h2>
-                <span id="timezone-wrapper"></span>
+                <div class="row">
+                    <div class="flex-column" id="icon"></div>
+                </div>
+
                 <div id="current-weather-wrapper"></div>
             </section>
         </div>
