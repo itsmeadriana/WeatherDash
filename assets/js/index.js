@@ -146,6 +146,18 @@ var displayCurrentWeather = function(data) {
             return `https://openweathermap.org/img/wn/${icon}.png`;
         }
 
+        function weatherIconDesc({current:
+            {
+                weather: {
+                    0: {
+                        description: description,
+                    }
+                }
+            }})
+            {
+                return `${description}`;
+            }
+
 // assign variables to destructured elements
     var currentCityWeather = temperature(data);
     console.log(currentCityWeather);
@@ -165,6 +177,9 @@ var displayCurrentWeather = function(data) {
     var iconURL = weatherIconURL(data);
     console.log(iconURL);
 
+    var iconDesc = weatherIconDesc(data);
+    console.log(iconDesc);
+
 // append variables to DOM elements
     var temperatureEl = document.createElement('p');
     temperatureEl.setAttribute('class', 'card-text');
@@ -181,9 +196,19 @@ var displayCurrentWeather = function(data) {
     windEl.innerHTML = '';
     windEl.append(currentCityWind);
 
+    var windEl = document.createElement('p');
+    windEl.setAttribute('class', 'card-text');
+    windEl.innerHTML = '';
+    windEl.append(currentCityWind);
+
     var iconEL = document.createElement('img');
     iconEL.
     setAttribute('src', iconURL);
+
+    var iconDescEl = document.createElement('p');
+    iconDescEl.setAttribute('class', 'card-text');
+    iconDescEl.innerHTML = '';
+    iconDescEl.append(iconDesc);
 
     var uviText = document.createElement('h6');
     uviText.textContent = '';
@@ -204,12 +229,16 @@ var displayCurrentWeather = function(data) {
     currentTimezoneWrapper.textContent = currentTimezone;
 
     var weatherList = document.createElement('div');
-    weatherList.append(temperatureEl, humidityEl, windEl);
+    weatherList.append(iconDesc, temperatureEl, humidityEl, windEl);
 
     currentCityWrapperEL.innerHTML = '';
     currentCityWrapperEL.append(iconEL, weatherList, uviButton);
 
 }
+
+// var displayForecast = function(data) {
+
+// }
 
 liveSearchHistoryList();
 
