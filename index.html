@@ -13,7 +13,8 @@
 </head>
 
 <header class="hero">
-    <img src="assets/images/WeatherDash-rainbowSunset.png" class="my-2 img-fluid rounded-pill shadow p-3 mb-5" alt="banner" />
+    <img src="assets/images/WeatherDash-rainbowSunset.png" class="my-2 img-fluid rounded-pill shadow p-3 mb-5"
+        alt="banner" />
 </header>
 
 <body class="container">
@@ -27,7 +28,7 @@
                     <div class="row">
                         <div class="form-floating mb-3">
                             <input type="input" class="form-control" id="floatingInput" placeholder="Austin, TX">
-                            <label class="mx-2" for="floatingInput">Search by city</label>
+                            <label class="form-label mx-2" for="floatingInput">Search by city</label>
                         </div>
                     </div>
                     <div class="search g-3">
@@ -38,9 +39,17 @@
                 <div class="list-group my-4">
                     <button type="button" class="list-group-item list-group-item-action" disabled>Search
                         History</button>
-                    <!-- <button type="button" class="list-group-item list-group-item-action"> -->
+                        <!-- <ul id=search-item>
+                            <li id=search-item>
+
+                            </li>
+                        </ul> -->
+                    <!-- <span id="search-item"> -->
+                        <button type="button" class="list-group-item list-group-item-action" id="search-item">
+                        </button>
+                    <!-- </span> -->
                 </div>
-            </div>
+        </div>
         </section>
 
         <div class="flex-column col-8 container-fluid">
@@ -48,8 +57,9 @@
             </h3>
 
             <section class="current-weather py-4 shadow p-3 mb-5 bg-body rounded">
-                <h2 id="city"></h2>
-
+                <h2>Currently in <span id="city">: </span></h2>
+                <span id="timezone-wrapper"></span>
+                <div id="current-weather-wrapper"></div>
             </section>
         </div>
     </div>
@@ -61,24 +71,18 @@
     </div>
 
 
-  </div>
+    </div>
 
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"
-      integrity="sha512-0fcCRl828lBlrSCa8QJY51mtNqTcHxabaXVLPgw/jPA5Nutujh6CbTdDgRzl9aSPYW/uuE7c4SffFUQFBAy6lg=="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"
-      integrity="sha512-m00bfmYnAl3plEBlQfeQUhw/U2uvmw29V2+jxSWpAjankMWS+zAsjezbKWDEJNXqWq9o9qQZSOiA2RKDpa4D5w=="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/timezone.min.js"
-      integrity="sha512-pslqxxHAYPCxaSeFSmXXxDkLejD5dbFVC66aiVq0z4v7VTJBU+wqcG1OpNh4p3MjS2D6NCwz/H2QmSc7dXxryg=="
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/dayjs.min.js"
+        integrity="sha512-0fcCRl828lBlrSCa8QJY51mtNqTcHxabaXVLPgw/jPA5Nutujh6CbTdDgRzl9aSPYW/uuE7c4SffFUQFBAy6lg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/utc.min.js"
+        integrity="sha512-m00bfmYnAl3plEBlQfeQUhw/U2uvmw29V2+jxSWpAjankMWS+zAsjezbKWDEJNXqWq9o9qQZSOiA2RKDpa4D5w=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.4/plugin/timezone.min.js"
+        integrity="sha512-pslqxxHAYPCxaSeFSmXXxDkLejD5dbFVC66aiVq0z4v7VTJBU+wqcG1OpNh4p3MjS2D6NCwz/H2QmSc7dXxryg=="
+        crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
