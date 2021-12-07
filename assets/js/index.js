@@ -25,16 +25,18 @@ dayjs.extend(window.dayjs_plugin_timezone);
 
 var getSearchCoordinates = function(search) {
 
-    var apiURL = `${weatherApiRootUrl}/geo/1.0/direct?q=${search}&limit=5&appid=${apiKey}`;
+    var apiURL = `${weatherApiRootUrl}/geo/1.0/direct?q=${search}&limit=3&appid=${apiKey}`;
 
     fetch(apiURL).then(function(response) {
         response.json().then(function(data) {
             if (!data[0]) {
                 alert('Location unknown')
             } else {
-
+                getWeatherData(data[0]);
             }
-            displayCurrentWeather(data);
+            })
+            .catch(function(err) {
+                console.error(err);
         });
     });
 }
@@ -44,6 +46,12 @@ var getWeatherData = function(location) {
     var { lon } = location;
     var city = location.name;
 
+    searchedCity.textContent = city;
+    // searchHistoryEl.append(city);
+    // // searchHistoryEl.textContent = city;
+
+    // localStorage.setItem('city', city);
+
     var apiUrl = `${weatherApiRootUrl}/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&appid=${apiKey}`;
 
     fetch(apiUrl)
@@ -51,17 +59,17 @@ var getWeatherData = function(location) {
         return res.json();
         })
         .then(function (data) {
-        destructureData(location, data);
+        displayCurrentWeather(data);
         })
         .catch(function (err) {
         console.error(err);
         });
 }
 
-var destructureData = function(location, data) {
-    displayCurrentWeather(location, data.current, data.timezone);
+// var destructureData = function(location, data) {
+//     displayCurrentWeather(location, data.current, data.timezone);
 
-}
+// }
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
@@ -76,27 +84,20 @@ var formSubmitHandler = function(event) {
     }
 }
 
-var displayCurrentWeather = function(data, city) {
+var displayCurrentWeather = function(data) {
     console.log(city);
     console.log(data);
 
-    var currentCityName = data.name;
-    searchedCity.textContent = currentCityName;
-    searchHistoryEl.append(currentCityName);
-    // searchHistoryEl.textContent = currentCityName;
-
-    localStorage.setItem('city', currentCityName);
-
     // functions to destructure array
-    function temperature({main: {temp: temp}}) {
+    function temperature({current: {temp: temp}}) {
         return `Temperature: ${temp}°F`
     }
 
-    function humidity({main: {humidity: percent}}) {
+    function humidity({current: {humidity: percent}}) {
         return `Humidity: ${percent}%`
     }
 
-    function windSpeed({wind: {speed: mph}}) {
+    function windSpeed({current: {wind_speed: mph}}) {
         return `Wind Speed: ${mph}MPH`
     }
 
@@ -105,41 +106,91 @@ var displayCurrentWeather = function(data, city) {
         return date;
     }
 
+    function uvIndex({current: {uvi: uvi}}) {
+        return `UV Index: ${uvi}`;
+    }
+
+    function weatherIconURL({current:
+        {
+            weather: {
+                0: {
+                    icon: icon,
+                }
+            }
+        }})
+        {
+            return `https://openweathermap.org/img/wn/${icon}.png`;
+        }
+
     // assign variables to destructured elements
     var currentCityWeather = temperature(data);
+    console.log(currentCityWeather);
+
     var currentCityHumidity = humidity(data);
+    console.log(currentCityHumidity);
+
     var currentCityWind = windSpeed(data);
+    console.log(currentCityWind);
+
     var currentTimezone = timezone(data);
+    console.log(currentTimezone);
 
-    console.log(timezone(data));
+    var uvi = uvIndex(data);
+    console.log(uvi);
 
-    var weatherList = document.createElement('ul');
-    var weatherListItem = document.createElement('li');
+    var iconURL = weatherIconURL(data);
+    console.log(iconURL);
+
+    var temperatureEl = document.createElement('p');
+    temperatureEl.setAttribute('class', 'card-text');
+    temperatureEl.innerHTML = '';
+    temperatureEl.append(currentCityWeather);
+
+    var humidityEl = document.createElement('p');
+    humidityEl.setAttribute('class', 'card-text');
+    humidityEl.innerHTML = '';
+    humidityEl.append(currentCityHumidity);
+
+    var windEl = document.createElement('p');
+    windEl.setAttribute('class', 'card-text');
+    windEl.innerHTML = '';
+    windEl.append(currentCityWind);
+
+    var uviEl = document.createElement('h5');
+    uviEl.append(uvi);
+
+    // create border element that for UV Index
+    var uviBorder = document.createElement('div');
+    uviBorder.setAttribute('class', 'border border-2 m-3');
+
+    // border color conditional upon uvi
+    if (uvi <= 3) {
+        uviBorder.classList.add('border-success');
+    } else if (uvi <= 7) {
+        uviBorder.classList.add('border-warning');
+    } else {
+        uviBorder.classList.add('border-danger');
+    }
 
 
-    weatherListItem.append(weatherList);
-
-    var card = document.createElement('div');
-    var cardBody = document.createElement('div');
-    card.append(cardBody);
-
-    cardBody.append(weatherList);
-    currentCityWrapperEL.append(card);
-
-    weatherListItem.append(currentCityWeather, currentCityHumidity, currentCityWind)
     currentTimezoneWrapper.textContent = currentTimezone;
-    // currentCityWrapperEL.textContent = currentCityWeather;
-    // currentCityWrapperEL.textContent = currentCityHumidity;
-    // currentCityWrapperEL.textContent = currentCityWind;
+
+    var weatherList = document.createElement('div');
+    // var weatherListItem = document.createElement('li');
+    weatherList.append(temperatureEl, humidityEl, windEl, uviEl);
+
+    currentCityWrapperEL.innerHTML = '';
+    currentCityWrapperEL.append(weatherList)
+
 }
 
-var searchHistoryButtonHandler = function(event) {
-    event.preventDefault();
+// var searchHistoryButtonHandler = function(event) {
+//     event.preventDefault();
 
-    searchHistoryEl.innerHTML = search;
-    getCurrentWeather(search);
-}
+//     searchHistoryEl.innerHTML = search;
+//     getCurrentWeather(search);
+// }
 
 searchForm.addEventListener("submit", formSubmitHandler);
 
-searchHistoryEl.addEventListener("click", getCurrentWeather);
+// searchHistoryEl.addEventListener("click", getCurrentWeather);
