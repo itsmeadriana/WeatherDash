@@ -93,7 +93,7 @@ var getWeatherData = function (location) {
         })
         .then(function (data) {
             displayCurrentWeather(data);
-            displayForecast(data);
+            fiveDayForecast(data);
         })
         .catch(function (err) {
             console.error(err);
@@ -289,29 +289,24 @@ function timezone(data) {
 }
 
 var displayForecast = function (data) {
-    // functions to destructure array
-
-    for (var i = 1; i <= 5; i++) {
-        console.log(data.daily[i]);
-        const forecastDay = data.daily[i]
 
         // assign variables to destructured elements
-        var forecastCityWeather = temperature(forecastDay);
+        var forecastCityWeather = temperature(data);
         console.log(forecastCityWeather);
 
-        var forecastCityHumidity = humidity(forecastDay);
+        var forecastCityHumidity = humidity(data);
         console.log(forecastCityHumidity);
 
-        var forecastCityWind = windSpeed(forecastDay);
+        var forecastCityWind = windSpeed(data);
         console.log(forecastCityWind);
 
-        var uvi = uvIndex(forecastDay);
+        var uvi = uvIndex(data);
         console.log(uvi);
 
-        var iconURL = weatherIconURL(forecastDay);
+        var iconURL = weatherIconURL(data);
         console.log(iconURL);
 
-        var iconDesc = weatherIconDesc(forecastDay);
+        var iconDesc = weatherIconDesc(data);
         console.log(iconDesc)
 
         var forecastTimezone = timezone(data);
@@ -360,23 +355,17 @@ var displayForecast = function (data) {
 
         //  build forecast card
 
-        var column = document.createElement('div');
-        var card = document.createElement('div');
-        var cardBody = document.createElement('div');
-        var cardTitle = document.createElement('h5');
-        var weatherList = document.createElement('div');
-        weatherList.append(temperatureEl, humidityEl, windEl);
+    buildCard(temperatureEl, humidityEl, windEl, iconEL, iconDescEl, forecastTimezone, uviButton)
 
-        column.append(card)
-        card.append(cardBody);
-        cardBody.append(cardTitle, iconEL, iconDescEl, weatherList)
+}
 
-        cardTitle.textContent = forecastTimezone;
-
-        forecastWrapperEL.innerHTML = '';
-        forecastWrapperEL.append(column, uviButton);
+var fiveDayForecast = function(data) {
+    for (var i = 1; i <= 5; i++) {
+        console.log(data.daily[i]);
+        displayForecast(data.daily[i]);
     }
 }
+
 
 liveSearchHistoryList();
 
@@ -392,3 +381,23 @@ var searchHistoryButtonHandler = function (event) {
 searchForm.addEventListener("submit", formSubmitHandler);
 
 searchHistoryEl.addEventListener("click", searchHistoryButtonHandler);
+
+function buildCard(temperatureEl, humidityEl, windEl, iconEL, iconDescEl, forecastTimezone, uviButton) {
+    return function (data) {
+        var column = document.createElement('div');
+        var card = document.createElement('div');
+        var cardBody = document.createElement('div');
+        var cardTitle = document.createElement('h5');
+        var weatherList = document.createElement('div');
+        weatherList.append(temperatureEl, humidityEl, windEl);
+
+        column.append(card);
+        card.append(cardBody);
+        cardBody.append(cardTitle, iconEL, iconDescEl, weatherList);
+
+        cardTitle.textContent = forecastTimezone;
+
+        forecastWrapperEL.innerHTML = '';
+        forecastWrapperEL.append(column, uviButton);
+    };
+}
