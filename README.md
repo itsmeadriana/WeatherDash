@@ -18,7 +18,7 @@ Once completed, this app will also display a five-day forecast with every search
 
 ## Preview
 
-
+https://user-images.githubusercontent.com/84536824/145055397-0b16f19d-c810-4e05-b4e8-4a25ef1ff2d1.mov
 
 ## Website URL
 
