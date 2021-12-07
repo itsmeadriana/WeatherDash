@@ -19,6 +19,7 @@ Once completed, this app will also display a five-day forecast with every search
 ## Preview
 
 
+
 ## Website URL
 
 https://itsmeadriana.github.io/WeatherDash
@@ -26,7 +27,7 @@ https://itsmeadriana.github.io/WeatherDash
 ## Contributions
 
  - OpenWeather.org's one call API endpoints
- - My tutor's very wise demonstration on JSON.stringify/.parse usage
+ - Day.js - so. HELPFUL.
 
 ----
 ❤️ Made with love by Adriana ❤️
