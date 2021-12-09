@@ -29,3 +29,21 @@ li {
 h3 {
     color: var(--tertiary-color);
 }
+
+#forecast {
+    display: flex;
+    justify-content: center;
+    align-items:baseline;
+}
+
+.uvi-btn {
+    min-width: 3em;
+}
+
+#top-cont {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+}

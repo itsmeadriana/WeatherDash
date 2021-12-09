@@ -11,7 +11,9 @@ var currentTimezoneWrapper = document.querySelector('#timezone-wrapper')
 var forecastTimezoneWrapper = document.querySelector('#forecast-timezone-wrapper');
 var currentCityWrapperEL = document.querySelector('#current-weather-wrapper');
 var forecastWrapperEL = document.querySelector('#forecast');
-var searchHistoryEl = document.querySelector('#search-item');
+var searchHistoryEl = document.querySelector('.dropdown-menu');
+var searchHistoryDropDown = document.querySelector('.dropdown-toggle');
+var dropDownDiv = document.querySelector('#dropdown-div');
 
 
 dayjs.extend(window.dayjs_plugin_utc);
@@ -56,14 +58,20 @@ var displaySearchHistory = function () {
     searchHistoryEl.innerHTML = '';
 
     for (var i = searchHistory.length - 1; i >= 0; i--) {
-        var historyItem = document.createElement('button');
-        historyItem.setAttribute('class', 'list-group-item list-group-item-action');
-        historyItem.setAttribute('id', 'search-term');
-
-        historyItem.setAttribute('searchItemActive', searchHistory[i]);
+        var historyItem = document.createElement('a');
+        historyItem.setAttribute('class', 'dropdown-item');
+        historyItem.setAttribute('href', `#${searchHistory[i]}`);
+        console.log(searchHistory[i]);
         historyItem.textContent = searchHistory[i];
-        searchHistoryEl.append(historyItem)
 
+        var historyItemList = document.createElement('li');
+        historyItemList.append(historyItem);
+
+        // var historyItemListEl = document.createElement('ul');
+        // historyItemListEl.append(historyItemList);
+
+        searchHistoryEl.append(historyItemList);
+        dropDownDiv.append(searchHistoryEl);
     }
 }
 
@@ -154,7 +162,7 @@ var displayCurrentWeather = function (data) {
             uvi: uvi
         }
     }) {
-        return `${uvi}`;
+        return `UV Index: ${uvi}`;
     }
 
     function weatherIconURL({
@@ -241,11 +249,11 @@ var displayCurrentWeather = function (data) {
     uviButton.append(uviText);
 
     if (uvi < 3) {
-        uviButton.setAttribute('class', 'btn-success rounded-pill mx-2 my-2');
+        uviButton.setAttribute('class', 'btn btn-success btn-block btn-lg uvi-btn mx-2 my-2');
     } else if (uvi < 7) {
-        uviButton.setAttribute('class', 'btn-warning rounded-pill mx-2 my-2');
+        uviButton.setAttribute('class', 'btn btn-warning btn-block btn-lg uvi-btn mx-2 my-2');
     } else {
-        uviButton.setAttribute('class', 'btn-danger rounded-pill mx-2 my-2');
+        uviButton.setAttribute('class', 'btn btn-danger btn-block btn-lg uvi-btn mx-2 my-2');
     }
 
     currentTimezoneWrapper.textContent = currentTimezone;
@@ -272,7 +280,7 @@ function windSpeed(forecastDay) {
 }
 
 function uvIndex(forecastDay) {
-    return `${forecastDay.uvi}`;
+    return `UV Index: ${forecastDay.uvi}`;
 }
 
 function weatherIconURL(forecastDay) {
@@ -283,13 +291,12 @@ function weatherIconDesc(forecastDay) {
     return `${forecastDay.weather[0].description}`;
 }
 
-function timezone(data) {
-    var date = dayjs().tz(data.timezone).format('dddd')
+function timezone(currentDay) {
+    var date = dayjs.unix(currentDay.dt).format('dddd')
     return date;
 }
 
 var displayForecast = function (data) {
-
         // assign variables to destructured elements
         var forecastCityWeather = temperature(data);
         console.log(forecastCityWeather);
@@ -346,11 +353,11 @@ var displayForecast = function (data) {
         uviButton.append(uviText);
 
         if (uvi < 3) {
-            uviButton.setAttribute('class', 'btn-success rounded-pill mx-2 my-2');
+            uviButton.setAttribute('class', 'btn btn-success btn-block btn-lg uvi-btn mx-2 my-2');
         } else if (uvi < 7) {
-            uviButton.setAttribute('class', 'btn-warning rounded-pill mx-2 my-2');
+            uviButton.setAttribute('class', 'btn btn-warning btn-block btn-lg uvi-btn mx-2 my-2');
         } else {
-            uviButton.setAttribute('class', 'btn-danger rounded-pill mx-2 my-2');
+            uviButton.setAttribute('class', 'btn btn-danger btn-block btn-lg uvi-btn mx-2 my-2');
         }
 
         //  build forecast card
@@ -361,14 +368,11 @@ var displayForecast = function (data) {
 
 var fiveDayForecast = function(data) {
     for (var i = 1; i <= 5; i++) {
-        console.log(data.daily[i]);
         displayForecast(data.daily[i]);
     }
 }
 
-
 liveSearchHistoryList();
-
 
 var searchHistoryButtonHandler = function (event) {
     event.preventDefault();
@@ -383,21 +387,19 @@ searchForm.addEventListener("submit", formSubmitHandler);
 searchHistoryEl.addEventListener("click", searchHistoryButtonHandler);
 
 function buildCard(temperatureEl, humidityEl, windEl, iconEL, iconDescEl, forecastTimezone, uviButton) {
-    return function (data) {
-        var column = document.createElement('div');
-        var card = document.createElement('div');
-        var cardBody = document.createElement('div');
-        var cardTitle = document.createElement('h5');
-        var weatherList = document.createElement('div');
-        weatherList.append(temperatureEl, humidityEl, windEl);
+    var column = document.createElement('div');
+    var card = document.createElement('div');
+    card.setAttribute('class', 'shadow p-3 mb-5 mx-2 py-4 px-4 bg-body rounded-pill')
+    var cardBody = document.createElement('div');
+    var cardTitle = document.createElement('h5');
+    var weatherList = document.createElement('div');
+    weatherList.append(temperatureEl, humidityEl, windEl);
 
-        column.append(card);
-        card.append(cardBody);
-        cardBody.append(cardTitle, iconEL, iconDescEl, weatherList);
+    column.append(card);
+    card.append(cardBody);
+    cardBody.append(cardTitle, iconEL, iconDescEl, weatherList, uviButton);
 
-        cardTitle.textContent = forecastTimezone;
+    cardTitle.textContent = forecastTimezone;
 
-        forecastWrapperEL.innerHTML = '';
-        forecastWrapperEL.append(column, uviButton);
-    };
+    forecastWrapperEL.append(column);
 }
