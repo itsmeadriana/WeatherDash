@@ -32,13 +32,13 @@ var getSearchCoordinates = function (search) {
 
     fetch(apiURL).then(function (response) {
         response.json().then(function (data) {
-                if (!data[0]) {
-                    alert('Location unknown')
-                } else {
-                    getWeatherData(data[0]);
-                    addToSearchHistory(search);
-                }
-            })
+            if (!data[0]) {
+                alert('Location unknown')
+            } else {
+                getWeatherData(data[0]);
+                addToSearchHistory(search);
+            }
+        })
             .catch(function (err) {
                 console.error(err);
             });
@@ -297,76 +297,76 @@ function timezone(currentDay) {
 }
 
 var displayForecast = function (data) {
-        // assign variables to destructured elements
-        var forecastCityWeather = temperature(data);
-        console.log(forecastCityWeather);
+    // assign variables to destructured elements
+    var forecastCityWeather = temperature(data);
+    console.log(forecastCityWeather);
 
-        var forecastCityHumidity = humidity(data);
-        console.log(forecastCityHumidity);
+    var forecastCityHumidity = humidity(data);
+    console.log(forecastCityHumidity);
 
-        var forecastCityWind = windSpeed(data);
-        console.log(forecastCityWind);
+    var forecastCityWind = windSpeed(data);
+    console.log(forecastCityWind);
 
-        var uvi = uvIndex(data);
-        console.log(uvi);
+    var uvi = uvIndex(data);
+    console.log(uvi);
 
-        var iconURL = weatherIconURL(data);
-        console.log(iconURL);
+    var iconURL = weatherIconURL(data);
+    console.log(iconURL);
 
-        var iconDesc = weatherIconDesc(data);
-        console.log(iconDesc)
+    var iconDesc = weatherIconDesc(data);
+    console.log(iconDesc)
 
-        var forecastTimezone = timezone(data);
-        console.log(forecastTimezone);
+    var forecastTimezone = timezone(data);
+    console.log(forecastTimezone);
 
-        // append variables to DOM elements
-        var temperatureEl = document.createElement('p');
-        temperatureEl.setAttribute('class', 'card-text');
-        temperatureEl.innerHTML = '';
-        temperatureEl.append(forecastCityWeather);
+    // append variables to DOM elements
+    var temperatureEl = document.createElement('p');
+    temperatureEl.setAttribute('class', 'card-text');
+    temperatureEl.innerHTML = '';
+    temperatureEl.append(forecastCityWeather);
 
-        var humidityEl = document.createElement('p');
-        humidityEl.setAttribute('class', 'card-text');
-        humidityEl.innerHTML = '';
-        humidityEl.append(forecastCityHumidity);
+    var humidityEl = document.createElement('p');
+    humidityEl.setAttribute('class', 'card-text');
+    humidityEl.innerHTML = '';
+    humidityEl.append(forecastCityHumidity);
 
-        var windEl = document.createElement('p');
-        windEl.setAttribute('class', 'card-text');
-        windEl.innerHTML = '';
-        windEl.append(forecastCityWind);
+    var windEl = document.createElement('p');
+    windEl.setAttribute('class', 'card-text');
+    windEl.innerHTML = '';
+    windEl.append(forecastCityWind);
 
 
-        var iconEL = document.createElement('img');
-        iconEL.setAttribute('src', iconURL);
+    var iconEL = document.createElement('img');
+    iconEL.setAttribute('src', iconURL);
 
-        var iconDescEl = document.createElement('p');
-        iconDescEl.setAttribute('class', 'card-text');
-        iconDescEl.innerHTML = '';
-        iconDescEl.append(iconDesc);
+    var iconDescEl = document.createElement('p');
+    iconDescEl.setAttribute('class', 'card-text');
+    iconDescEl.innerHTML = '';
+    iconDescEl.append(iconDesc);
 
-        var uviText = document.createElement('h6');
-        uviText.textContent = '';
-        uviText.append(uvi);
+    var uviText = document.createElement('h6');
+    uviText.textContent = '';
+    uviText.append(uvi);
 
-        // text color conditional upon uvi
-        var uviButton = document.createElement('button');
-        uviButton.append(uviText);
+    // text color conditional upon uvi
+    var uviButton = document.createElement('button');
+    uviButton.append(uviText);
 
-        if (uvi < 3) {
-            uviButton.setAttribute('class', 'btn btn-success btn-block btn-lg uvi-btn mx-2 my-2');
-        } else if (uvi < 7) {
-            uviButton.setAttribute('class', 'btn btn-warning btn-block btn-lg uvi-btn mx-2 my-2');
-        } else {
-            uviButton.setAttribute('class', 'btn btn-danger btn-block btn-lg uvi-btn mx-2 my-2');
-        }
+    if (uvi < 3) {
+        uviButton.setAttribute('class', 'btn btn-success btn-block btn-lg uvi-btn mx-2 my-2');
+    } else if (uvi < 7) {
+        uviButton.setAttribute('class', 'btn btn-warning btn-block btn-lg uvi-btn mx-2 my-2');
+    } else {
+        uviButton.setAttribute('class', 'btn btn-danger btn-block btn-lg uvi-btn mx-2 my-2');
+    }
 
-        //  build forecast card
+    //  build forecast card
 
     buildCard(temperatureEl, humidityEl, windEl, iconEL, iconDescEl, forecastTimezone, uviButton)
 
 }
 
-var fiveDayForecast = function(data) {
+var fiveDayForecast = function (data) {
     for (var i = 1; i <= 5; i++) {
         displayForecast(data.daily[i]);
     }
@@ -378,7 +378,7 @@ var searchHistoryButtonHandler = function (event) {
     event.preventDefault();
 
     var historyItemButton = event.target;
-    var citySearch = historyItemButton.getAttribute('searchItemActive');
+    var citySearch = historyItemButton.innerHTML;
     getSearchCoordinates(citySearch);
 }
 
