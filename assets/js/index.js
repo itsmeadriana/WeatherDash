@@ -378,7 +378,7 @@ var searchHistoryButtonHandler = function (event) {
     event.preventDefault();
 
     var historyItemButton = event.target;
-    var citySearch = historyItemButton.getAttribute('searchItemActive');
+    var citySearch = historyItemButton.textContent;
     getSearchCoordinates(citySearch);
 }
 
@@ -389,7 +389,8 @@ searchHistoryEl.addEventListener("click", searchHistoryButtonHandler);
 function buildCard(temperatureEl, humidityEl, windEl, iconEL, iconDescEl, forecastTimezone, uviButton) {
     var column = document.createElement('div');
     var card = document.createElement('div');
-    card.setAttribute('class', 'shadow p-3 mb-5 mx-2 py-4 px-4 bg-body rounded-pill')
+    card.setAttribute('class', 'shadow p-3 mb-5 mx-2 py-4 px-4 bg-body rounded')
+    card.setAttribute('id', 'weather-card');
     var cardBody = document.createElement('div');
     var cardTitle = document.createElement('h5');
     var weatherList = document.createElement('div');

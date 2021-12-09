@@ -14,6 +14,10 @@
     --bg-color: #cfedf8cb;
 };
 
+* {
+    font-size: 12pt;
+}
+
 .banner {
     background-color: var(--bg-color);
 }
@@ -28,6 +32,12 @@ li {
 
 h3 {
     color: var(--tertiary-color);
+}
+
+.current-weather {
+    display: flex;
+    justify-content: center;
+    font-size:larger;
 }
 
 #forecast {
